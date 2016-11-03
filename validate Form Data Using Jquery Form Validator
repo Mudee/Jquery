@@ -1,0 +1,72 @@
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.js"></script>
+    Form Validation using Jquery Validation plugin
+
+$("#formName").validate({
+        rules: {
+            FirstName: "required",
+            LastName: "required",
+            Email: {
+                required: true,
+                email: true
+            },
+            Password: {
+                required: true,
+                minlength: 8
+            },
+             LeaveCount: {
+                required: true,
+                number: true
+            },
+        },
+        messages: {
+            FirstName: "Please enter first name.",
+            LastName: "Please enter last name",
+            Email: {
+                required: "Please enter email",
+                email: "Please enter a valid email address"
+            },
+            Password: {
+                required: "Please enter password",
+                minlength: "Your password must be at least 8 characters long"
+            },
+             LeaveCount: {
+                required: "Please enter Max Count",
+                number: "Please enter a valid Number"
+            }
+           
+        },
+
+        errorClass: "error-class",
+
+        submitHandler: function (form, e) {
+            e.preventDefault();
+
+            $.ajax({
+                type: "POST",
+                url: "/Home/Add_Admin_User",
+                data: $("#formName").serialize(),
+                success: function (data) {
+                   
+                    if (data != "OK") {
+                        show_notification("Error Creating New User", data);
+                    }
+                    else {
+                       
+                        $("#form_user_add")[0].reset();
+                       $('#UserActive').bootstrapToggle('off')
+                        $('#modaladduser').modal('toggle');
+                        show_notification("New User Created", "New Admin User Created Sucessfully");
+                     
+                        var table = $("#admin_user_table").DataTable();
+                        table.ajax.reload();
+                       // table.api().ajax.reload();
+                    }
+                },
+
+                error: function () {
+                    show_notification("Error Creating User", "Error Occured While Processing Try Again");
+                }
+
+            });
+        }
+    });
