@@ -70,3 +70,50 @@ $("#formName").validate({
             });
         }
     });
+    
+    
+   Another Method TO Validate Login Page is as
+   
+   ----------------------------------------------------------------------------------
+   $(document).ready(function(){
+  
+    $('#user_login').on('submit', function (e) {
+        e.preventDefault();
+
+        if ($('#Email').val() === "") {
+            $("#Email").focus();
+            //show_notification("Error Login", "Enter Your Username!")
+          //  alert('yes');
+            return false;
+        }
+
+        if ($('#Password').val() === "") {
+            $("#Password").focus();
+           //show_notification("Error Login", "Enter Your Password!")
+           // alert('No');
+            return false;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/Login/Verify_Admin_Login",
+            data: $("#user_login").serialize(),
+            success: function (data) {
+                alert(data);
+                //if (data != "OK") {
+                //    show_notification("Error Login", data);
+                //}
+                //else {
+                //    window.location.replace("/Dashboard");
+                //}
+            },
+
+            error: function () {
+                show_notification("Error Login", "Error Occured While Processing Try Again");
+            }
+
+        });
+
+    });
+
+});
