@@ -1,0 +1,34 @@
+///Dynamically Add Options To select Element (Drop Down LIst)
+in jquery do this
+$(document).ready(function(){
+load_select_options()
+
+
+});
+function load_select_options()
+{
+  $.ajax({
+        type: "POST",
+        dataType: 'json',
+        url: "/LeaveManage/get_leave_list",
+        success: function (data) {
+            var listItems = "";
+            var json = JSON.parse(JSON.stringify(data.msg))
+            for (var i = 0; i < json.length; i++) {
+                listItems += "<option value='" + json[i].LeavePeriodID + "'>" + json[i].LeavePeriodName + "</option>";
+            }
+            $("#LeavePeriodID").html(listItems);
+            $("#LeavePeriodIDEdit").html(listItems); // // This Concept Is Important Please Read It Properly ( $("#LeavePeriodIDEdit").val(json[0].LeavePeriodID);)
+        },
+        error: function () {
+            console.log('Ajax Request Cannot Be Completed Sucessfully. Cannot Bind Roles');
+        }
+    });
+    }
+    
+[[[ get_leave_list in contyroller    ///]]]]
+  public JsonResult Get_Leave_List()
+        {
+            IEnumerable<tbl_admin_roles> users = DataAccessLayer.ExecuteQuery<tbl_admin_roles>("sp_get_leave_list", null);
+            return Json(new { msg = users }, JsonRequestBehavior.AllowGet);
+        }
