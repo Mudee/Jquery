@@ -1,6 +1,9 @@
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.js"></script>
     Form Validation using Jquery Validation plugin
-
+    
+jQuery.validator.addMethod('selectcountry', function (value) {   // For Select Option
+        return (value != '');
+    }, "Please Select Country");
 $("#formName").validate({
         rules: {
             FirstName: "required",
@@ -17,6 +20,7 @@ $("#formName").validate({
                 required: true,
                 number: true
             },
+             CountryID:{selectcountry: true},     // For Select Option
         },
         messages: {
             FirstName: "Please enter first name.",
