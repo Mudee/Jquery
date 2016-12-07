@@ -20,7 +20,19 @@ $("#formName").validate({
                 required: true,
                 number: true
             },
-             CountryID:{selectcountry: true},     // For Select Option
+  // Password change options
+             old_password: "required",
+             new_password: {
+                required: true,
+                minlength: 8
+             },
+             confirm_password: {
+                required: true,
+                minlength: 8,
+                equalTo: "#new_password"
+            },
+  // For Select Option          
+             CountryID:{selectcountry: true},    
         },
         messages: {
             FirstName: "Please enter first name.",
@@ -36,7 +48,18 @@ $("#formName").validate({
              LeaveCount: {
                 required: "Please enter Max Count",
                 number: "Please enter a valid Number"
-            }
+            },
+ // For Password Change 
+            old_password: "Please enter your old password",
+            new_password: {
+                required: "Please enter new password",
+                minlength: "Your password must be at least 8 characters long"
+            },
+            confirm_password: {
+                required: "Please enter confirm password",
+                minlength: "Your password must be at least 8 characters long",
+                equalTo: "Please enter the same password as above"
+            },
            
         },
 
